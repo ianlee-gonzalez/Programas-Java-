@@ -34,10 +34,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Clientes extends JDialog {
 	private JTextField txtPesquisar;
-	private JTextField txtIdCli;
 	private JTextField txtNomeCli;
 	private JTextField txtFoneCli;
 	private JTextField txtCep;
@@ -102,6 +103,7 @@ public class Clientes extends JDialog {
 		getContentPane().add(lblNewLabel_2);
 
 		txtIdCli = new JTextField();
+		txtIdCli.setEditable(false);
 		txtIdCli.setBounds(55, 198, 86, 20);
 		getContentPane().add(txtIdCli);
 		txtIdCli.setColumns(10);
@@ -199,19 +201,26 @@ public class Clientes extends JDialog {
 		cboUf.setBounds(368, 363, 42, 22);
 		getContentPane().add(cboUf);
 
-		JButton btnAdicionar = new JButton("");
+		btnAdicionar = new JButton("");
+		btnAdicionar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				adicionarCliente();
+			}
+		});
 		btnAdicionar.setToolTipText("Adicionar");
 		btnAdicionar.setIcon(new ImageIcon(Clientes.class.getResource("/img/create.png")));
 		btnAdicionar.setBounds(10, 306, 86, 64);
 		getContentPane().add(btnAdicionar);
 
-		JButton btnEditar = new JButton("New button");
+		btnEditar = new JButton("New button");
+		btnEditar.setEnabled(false);
 		btnEditar.setToolTipText("Editar");
 		btnEditar.setIcon(new ImageIcon(Clientes.class.getResource("/img/update.png")));
 		btnEditar.setBounds(108, 306, 64, 64);
 		getContentPane().add(btnEditar);
 
-		JButton btnExcluir = new JButton("New button");
+		btnExcluir = new JButton("New button");
+		btnExcluir.setEnabled(false);
 		btnExcluir.setToolTipText("Excluir");
 		btnExcluir.setIcon(new ImageIcon(Clientes.class.getResource("/img/delete.png")));
 		btnExcluir.setBounds(193, 306, 64, 69);
@@ -232,11 +241,21 @@ public class Clientes extends JDialog {
 		desktopPane.add(scrollPane);
 
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setarCampos();
+			}
+		});
 		scrollPane.setViewportView(table);
 	}
 
 	// Fim do construtor>>>>>>>>>>>>
 	DAO dao=new DAO();
+	private JButton btnAdicionar;
+	private JButton btnEditar;
+	private JButton btnExcluir;
+	private JTextField txtIdCli;
 	/**
 	 * buscarCep
 	 */
@@ -283,7 +302,7 @@ public class Clientes extends JDialog {
 		}
 	}
 	private void pesquisarCliente() {
-		String read = "select * from clientes where cliente like ?";
+		String read = "select * from clientes where nome like ?";
 		try {
 			//abrir a conexao com o banco
 			Connection con = dao.conectar();
@@ -299,5 +318,89 @@ public class Clientes extends JDialog {
 			System.out.println(e);
 		}
 	}
+	private void adicionarCliente() {
+		if (txtNomeCli.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "preencha o campo Nome", "Atenção PÔ", JOptionPane.ERROR_MESSAGE);
+			txtNomeCli.requestFocus();
+		} else if (txtFoneCli.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "preencha o campo Fone", "Atenção PÔ", JOptionPane.ERROR_MESSAGE);
+			txtFoneCli.requestFocus();
 
-}
+		} else if (txtEndereco.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "preencha o campo endereço", "Atenção PÔ", JOptionPane.ERROR_MESSAGE);
+			txtEndereco.requestFocus();
+		}else if (txtNumero.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "preencha o campo Numero", "Atenção PÔ", JOptionPane.ERROR_MESSAGE);
+				txtNumero.requestFocus();
+		}else if (txtComplemento.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "preencha o campo endereço", "Atenção PÔ", JOptionPane.ERROR_MESSAGE);
+			txtComplemento.requestFocus();
+		}else if (txtBairro.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "preencha o campo endereço", "Atenção PÔ", JOptionPane.ERROR_MESSAGE);
+			txtBairro.requestFocus();
+		}else if (txtCidade.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "preencha o campo endereço", "Atenção PÔ", JOptionPane.ERROR_MESSAGE);
+			txtCidade.requestFocus();
+		
+				
+		
+		}else{
+			//adicionar o cliente no banco de dados
+			String create ="insert into clientes (nome,fone,cep,endereco,numero,complemento,bairro,cidade,uf) values (?,?,?,?,?,?,?,?,?)";
+			try {
+				Connection con=dao.conectar();
+				PreparedStatement pst = con.prepareStatement(create);
+				pst.setString(1,txtNomeCli.getText());
+				pst.setString(2,txtFoneCli.getText());
+				pst.setString(3,txtCep.getText());
+				pst.setString(4,txtEndereco.getText());
+				pst.setString(5,txtNumero.getText());
+				pst.setString(6,txtComplemento.getText());
+				pst.setString(7,txtBairro.getText());
+				pst.setString(8,txtCidade.getText());
+				pst.setString(9,cboUf.getSelectedItem().toString());
+				
+				//criando uma variavel que ira executar a query e receber o valor 1 em caso positivo(inserçao do cliente no banco
+				int confirma =pst.executeUpdate();
+				if (confirma ==1) {
+					JOptionPane.showMessageDialog(null, "Cliente adicionado com sucesso ", "Ei", JOptionPane.INFORMATION_MESSAGE);
+				
+				con.close();
+				
+						
+					
+				}
+			} catch (Exception e) {
+				System.out.println(e);
+				
+			}
+		
+			
+		}
+
+	
+	
+		
+	
+		
+	
+	
+	}
+	private void setarCampos() {
+		int setar = table.getSelectedRow();
+		txtIdCli.setText(table.getModel().getValueAt(setar, 0).toString());
+		txtNomeCli.setText(table.getModel().getValueAt(setar, 1).toString());
+		txtFoneCli.setText(table.getModel().getValueAt(setar, 2).toString());
+		txtCep.setText(table.getModel().getValueAt(setar, 3).toString());
+		txtEndereco.setText(table.getModel().getValueAt(setar, 4).toString());
+		txtNumero.setText(table.getModel().getValueAt(setar, 5).toString());
+		txtComplemento.setText(table.getModel().getValueAt(setar, 6).toString());
+		txtBairro.setText(table.getModel().getValueAt(setar, 7).toString());
+		txtCidade.setText(table.getModel().getValueAt(setar, 8).toString());
+		cboUf.setSelectedItem(table.getModel().getValueAt(setar, 9).toString());
+		btnAdicionar.setEnabled(false);
+		btnEditar.setEnabled(true);
+		btnExcluir.setEnabled(true);
+		
+	}
+	}
