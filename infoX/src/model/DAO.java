@@ -4,29 +4,29 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 /**
- * Conexão com o banco de dados
+ * Conexï¿½o com o banco de dados
  * 
  * @author ian.lggonzalez
  * @version 1.0
  */
 public class DAO {
-	// parametros de conexão
+	// parametros de conexï¿½o
 	private String driver = "com.mysql.cj.jdbc.Driver";
-	private String url = "jdbc:mysql://10.26.45.100:3306/dbinfox";
-	private String user = "dba";
-	private String password = "123@Senac";
+	private String url = "jdbc:mysql://127.0.0.1:3306/dbinfox";
+	private String user = "root";
+	private String password = "SuaSenha";
 
 	/**
-	 * Metodo resposavel pela conexão com o banco *
+	 * Metodo resposavel pela conexï¿½o com o banco *
 	 * 
 	 * @return con
 	 */
 	public Connection conectar() {
 		// alinha abaixo cria um objeto com nome con
 		Connection con = null;
-		// tratamento de exceções
+		// tratamento de exceï¿½ï¿½es
 		try {
-			// as duas linhas abaixo estabelecem a conexão
+			// as duas linhas abaixo estabelecem a conexï¿½o
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, user, password);
 			return con;

@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -39,6 +40,7 @@ import java.awt.event.MouseEvent;
 
 public class Clientes extends JDialog {
 	private JTextField txtPesquisar;
+	private JTextField txtIdCli;
 	private JTextField txtNomeCli;
 	private JTextField txtFoneCli;
 	private JTextField txtCep;
@@ -103,7 +105,6 @@ public class Clientes extends JDialog {
 		getContentPane().add(lblNewLabel_2);
 
 		txtIdCli = new JTextField();
-		txtIdCli.setEditable(false);
 		txtIdCli.setBounds(55, 198, 86, 20);
 		getContentPane().add(txtIdCli);
 		txtIdCli.setColumns(10);
@@ -203,7 +204,7 @@ public class Clientes extends JDialog {
 
 		btnAdicionar = new JButton("");
 		btnAdicionar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent arg0) {
 				adicionarCliente();
 			}
 		});
@@ -213,14 +214,22 @@ public class Clientes extends JDialog {
 		getContentPane().add(btnAdicionar);
 
 		btnEditar = new JButton("New button");
-		btnEditar.setEnabled(false);
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				editarCliente();
+			}
+		});
 		btnEditar.setToolTipText("Editar");
 		btnEditar.setIcon(new ImageIcon(Clientes.class.getResource("/img/update.png")));
 		btnEditar.setBounds(108, 306, 64, 64);
 		getContentPane().add(btnEditar);
 
 		btnExcluir = new JButton("New button");
-		btnExcluir.setEnabled(false);
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				excluirCliente();
+			}
+		});
 		btnExcluir.setToolTipText("Excluir");
 		btnExcluir.setIcon(new ImageIcon(Clientes.class.getResource("/img/delete.png")));
 		btnExcluir.setBounds(193, 306, 64, 69);
@@ -234,7 +243,7 @@ public class Clientes extends JDialog {
 		scrollPane.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				 pesquisarCliente();
+				pesquisarCliente();
 			}
 		});
 		scrollPane.setBounds(0, 0, 527, 87);
@@ -248,14 +257,24 @@ public class Clientes extends JDialog {
 			}
 		});
 		scrollPane.setViewportView(table);
+
+		JLabel lblNewLabel_3 = new JLabel("Email");
+		lblNewLabel_3.setBounds(2, 266, 70, 15);
+		getContentPane().add(lblNewLabel_3);
+
+		txtEmailCli = new JTextField();
+		txtEmailCli.setBounds(90, 264, 114, 19);
+		getContentPane().add(txtEmailCli);
+		txtEmailCli.setColumns(10);
 	}
 
 	// Fim do construtor>>>>>>>>>>>>
-	DAO dao=new DAO();
+	DAO dao = new DAO();
+	private JTextField txtEmailCli;
 	private JButton btnAdicionar;
 	private JButton btnEditar;
 	private JButton btnExcluir;
-	private JTextField txtIdCli;
+
 	/**
 	 * buscarCep
 	 */
@@ -292,7 +311,7 @@ public class Clientes extends JDialog {
 						// lblStatus.setIcon(new
 						// javax.swing.ImageIcon(getClass().getResource("/img/check.png")));
 					} else {
-						JOptionPane.showMessageDialog(null, "CEP n„o encontrado");
+						JOptionPane.showMessageDialog(null, "CEP nÔøΩo encontrado");
 					}
 				}
 			}
@@ -301,106 +320,227 @@ public class Clientes extends JDialog {
 			System.out.println(e);
 		}
 	}
+
 	private void pesquisarCliente() {
-		String read = "select * from clientes where nome like ?";
+		String read = "select * from clientes where nome  like ?";
 		try {
-			//abrir a conexao com o banco
+			// abrir a conexao com o banco
 			Connection con = dao.conectar();
-			//preparar a query(instrucao sql) para pesquisar no banco
+			// preparar a query(instrucao sql) para pesquisar no banco
 			PreparedStatement pst = con.prepareStatement(read);
-			//substituir o parametro(?) Atencao ao % para completar a query
+			// substituir o parametro(?) Atencao ao % para completar a query
 			pst.setString(1, txtPesquisar.getText() + "%");
-			//obter os dados do banco (resultado)
+			// obter os dados do banco (resultado)
 			ResultSet rs = pst.executeQuery();
-			//popular(preencher) a tabela com os dados do banco
+			// popular(preencher) a tabela com os dados do banco
 			table.setModel(DbUtils.resultSetToTableModel(rs));
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
+
 	private void adicionarCliente() {
-		if (txtNomeCli.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo Nome", "AtenÁ„o P‘", JOptionPane.ERROR_MESSAGE);
-			txtNomeCli.requestFocus();
-		} else if (txtFoneCli.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo Fone", "AtenÁ„o P‘", JOptionPane.ERROR_MESSAGE);
-			txtFoneCli.requestFocus();
 
-		} else if (txtEndereco.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo endereÁo", "AtenÁ„o P‘", JOptionPane.ERROR_MESSAGE);
-			txtEndereco.requestFocus();
-		}else if (txtNumero.getText().isEmpty()) {
-				JOptionPane.showMessageDialog(null, "preencha o campo Numero", "AtenÁ„o P‘", JOptionPane.ERROR_MESSAGE);
-				txtNumero.requestFocus();
-		}else if (txtComplemento.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo endereÁo", "AtenÁ„o P‘", JOptionPane.ERROR_MESSAGE);
-			txtComplemento.requestFocus();
-		}else if (txtBairro.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo endereÁo", "AtenÁ„o P‘", JOptionPane.ERROR_MESSAGE);
-			txtBairro.requestFocus();
-		}else if (txtCidade.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo endereÁo", "AtenÁ„o P‘", JOptionPane.ERROR_MESSAGE);
-			txtCidade.requestFocus();
-		
-				
-		
-		}else{
-			//adicionar o cliente no banco de dados
-			String create ="insert into clientes (nome,fone,cep,endereco,numero,complemento,bairro,cidade,uf) values (?,?,?,?,?,?,?,?,?)";
-			try {
-				Connection con=dao.conectar();
-				PreparedStatement pst = con.prepareStatement(create);
-				pst.setString(1,txtNomeCli.getText());
-				pst.setString(2,txtFoneCli.getText());
-				pst.setString(3,txtCep.getText());
-				pst.setString(4,txtEndereco.getText());
-				pst.setString(5,txtNumero.getText());
-				pst.setString(6,txtComplemento.getText());
-				pst.setString(7,txtBairro.getText());
-				pst.setString(8,txtCidade.getText());
-				pst.setString(9,cboUf.getSelectedItem().toString());
-				
-				//criando uma variavel que ira executar a query e receber o valor 1 em caso positivo(inserÁao do cliente no banco
-				int confirma =pst.executeUpdate();
-				if (confirma ==1) {
-					JOptionPane.showMessageDialog(null, "Cliente adicionado com sucesso ", "Ei", JOptionPane.INFORMATION_MESSAGE);
-				
-				con.close();
-				
-						
-					
+		{
+			if (txtNomeCli.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Preencha o Nome!", "Aten√ß√£o!!", JOptionPane.ERROR_MESSAGE);
+				txtNomeCli.requestFocus();
+			} else if (txtCep.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Preencha o Endere√ßo Completo!", "Aten√ß√£o!!",
+						JOptionPane.ERROR_MESSAGE);
+				txtCep.requestFocus();
+			} else if (txtEndereco.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Preencha a Endere√ßo Completo!", "Aten√ß√£o!!",
+						JOptionPane.ERROR_MESSAGE);
+				txtEndereco.requestFocus();
+				// } else if (txtComplemento.getText().isEmpty()) {
+				// JOptionPane.showMessageDialog(null, "Preencha a Endere√ßo Completo!",
+				// "Aten√ß√£o!!",
+				// JOptionPane.ERROR_MESSAGE);
+				// txtComplemento.requestFocus();
+			} else if (txtBairro.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Preencha a Endere√ßo Completo!", "Aten√ß√£o!!",
+						JOptionPane.ERROR_MESSAGE);
+				txtBairro.requestFocus();
+			} else if (txtCidade.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Preencha a Endere√ßo Completo!", "Aten√ß√£o!!",
+						JOptionPane.ERROR_MESSAGE);
+				txtCidade.requestFocus();
+			} else if (txtFoneCli.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Preencha o Telefone!", "Aten√ß√£o!!", JOptionPane.ERROR_MESSAGE);
+				txtFoneCli.requestFocus();
+
+			} else {
+				String create = "insert into clientes(nome,cep,endereco,numero,complemento,bairro,uf,fone,email,cidade) values (?,?,?,?,?,?,?,?,?,?)";
+				try {
+					Connection con = dao.conectar();
+					PreparedStatement pst = con.prepareStatement(create);
+					pst.setString(1, txtNomeCli.getText());
+					pst.setString(2, txtCep.getText());
+					pst.setString(3, txtEndereco.getText());
+					pst.setString(4, txtNumero.getText());
+					pst.setString(5, txtComplemento.getText());
+					pst.setString(6, txtBairro.getText());
+					pst.setString(7, cboUf.getSelectedItem().toString());
+					pst.setString(8, txtFoneCli.getText());
+					pst.setString(9, txtEmailCli.getText());
+					pst.setString(10, txtCidade.getText());
+
+					int confirma = pst.executeUpdate();
+					if (confirma == 1) {
+						JOptionPane.showMessageDialog(null, "Cliente adicionado com sucesso", "Mensagem",
+								JOptionPane.INFORMATION_MESSAGE);
+					}
+					con.close();
+					// limpar();
+				} catch (java.sql.SQLIntegrityConstraintViolationException ex) {
+					JOptionPane.showMessageDialog(null,
+							"E-mail j√° cadastrado!\n Favor escolher outro e-mail para cadastrar!", "Mensagem",
+							JOptionPane.WARNING_MESSAGE);
+					txtEmailCli.setText(null);
+					txtEmailCli.requestFocus();
+
+				} catch (Exception e) {
+					System.out.println(e);
 				}
-			} catch (Exception e) {
-				System.out.println(e);
-				
 			}
-		
-			
 		}
-
-	
-	
-		
-	
-		
-	
-	
 	}
 	private void setarCampos() {
 		int setar = table.getSelectedRow();
 		txtIdCli.setText(table.getModel().getValueAt(setar, 0).toString());
 		txtNomeCli.setText(table.getModel().getValueAt(setar, 1).toString());
-		txtFoneCli.setText(table.getModel().getValueAt(setar, 2).toString());
-		txtCep.setText(table.getModel().getValueAt(setar, 3).toString());
-		txtEndereco.setText(table.getModel().getValueAt(setar, 4).toString());
-		txtNumero.setText(table.getModel().getValueAt(setar, 5).toString());
-		txtComplemento.setText(table.getModel().getValueAt(setar, 6).toString());
-		txtBairro.setText(table.getModel().getValueAt(setar, 7).toString());
-		txtCidade.setText(table.getModel().getValueAt(setar, 8).toString());
-		cboUf.setSelectedItem(table.getModel().getValueAt(setar, 9).toString());
+		txtCep.setText(table.getModel().getValueAt(setar, 2).toString());
+		txtEndereco.setText(table.getModel().getValueAt(setar, 3).toString());
+		txtNumero.setText(table.getModel().getValueAt(setar, 4).toString());
+		txtComplemento.setText(table.getModel().getValueAt(setar, 5).toString());
+		txtBairro.setText(table.getModel().getValueAt(setar, 6).toString());
+		cboUf.setSelectedItem(table.getModel().getValueAt(setar, 7).toString());
+		txtFoneCli.setText(table.getModel().getValueAt(setar, 8).toString());
+		txtEmailCli.setText(table.getModel().getValueAt(setar, 9).toString());
+		txtCidade.setText(table.getModel().getValueAt(setar, 10).toString());
+
+		// Geren Btn
 		btnAdicionar.setEnabled(false);
 		btnEditar.setEnabled(true);
 		btnExcluir.setEnabled(true);
-		
+
 	}
+
+	private void editarCliente() {
+
+		if (txtNomeCli.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o Nome!", "Aten√ß√£o!!", JOptionPane.ERROR_MESSAGE);
+			txtNomeCli.requestFocus();
+		} else if (txtCep.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o Endere√ßo Completo!", "Aten√ß√£o!!",
+					JOptionPane.ERROR_MESSAGE);
+			txtCep.requestFocus();
+		} else if (txtEndereco.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha a Endere√ßo Completo!", "Aten√ß√£o!!",
+					JOptionPane.ERROR_MESSAGE);
+			txtEndereco.requestFocus();
+		} else if (txtComplemento.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha a Endere√ßo Completo!", "Aten√ß√£o!!",
+					JOptionPane.ERROR_MESSAGE);
+			txtComplemento.requestFocus();
+		} else if (txtBairro.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha a Endere√ßo Completo!", "Aten√ß√£o!!",
+					JOptionPane.ERROR_MESSAGE);
+			txtBairro.requestFocus();
+		} else if (txtCidade.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha a Endere√ßo Completo!", "Aten√ß√£o!!",
+					JOptionPane.ERROR_MESSAGE);
+			txtCidade.requestFocus();
+		} else if (txtFoneCli.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o Telefone!", "Aten√ß√£o!!", JOptionPane.ERROR_MESSAGE);
+			txtFoneCli.requestFocus();
+
+		} else {
+			String update = "update clientes set nome=?,cep=?,endereco=?,numero=?,complemento=?,bairro=?,uf=?,fone=?,email=?,cidade=? where idcli=?";
+			try {
+				Connection con = dao.conectar();
+				PreparedStatement pst = con.prepareStatement(update);
+				pst.setString(1, txtNomeCli.getText());
+				pst.setString(2, txtCep.getText());
+				pst.setString(3, txtEndereco.getText());
+				pst.setString(4, txtNumero.getText());
+				pst.setString(5, txtComplemento.getText());
+				pst.setString(6, txtBairro.getText());
+				pst.setString(7, cboUf.getSelectedItem().toString());
+				pst.setString(8, txtFoneCli.getText());
+				pst.setString(9, txtEmailCli.getText());
+				pst.setString(10, txtCidade.getText());
+				pst.setString(11, txtIdCli.getText());
+
+				int confirma = pst.executeUpdate();
+				if (confirma == 1) {
+					JOptionPane.showMessageDialog(null, "Dados do Cliente Atualizado com Sucesso!!", "Mensagem",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+				con.close();
+				limpar();
+			} catch (java.sql.SQLIntegrityConstraintViolationException ex) {
+				JOptionPane.showMessageDialog(null,
+						"E-mail j√° cadastrado!\n Favor escolher outro e-mail para cadastrar!", "Mensagem",
+						JOptionPane.WARNING_MESSAGE);
+				txtEmailCli.setText(null);
+				txtEmailCli.requestFocus();
+
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
+}
+	private void excluirCliente() {
+		// Confirma√ß√£o de Exclus√£o
+		int confirma = JOptionPane.showConfirmDialog(null, "Confirma a exclus√£o deste cliente?", "Aten√ß√£o!",
+				JOptionPane.YES_NO_OPTION);
+		if (confirma == JOptionPane.YES_OPTION) {
+			// codigo principal
+			String delete = "delete from clientes where idcli=?";
+			try {
+				Connection con = dao.conectar();
+				PreparedStatement pst = con.prepareStatement(delete);
+				pst.setString(1, txtIdCli.getText());
+				int excluir = pst.executeUpdate();
+				if (excluir == 1) {
+					limpar();
+					JOptionPane.showMessageDialog(null, "Cliente exclu√≠do com sucesso!", "Mensagem",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+
+				con.close();
+			} catch (java.sql.SQLIntegrityConstraintViolationException ex) {
+				JOptionPane.showMessageDialog(null, "Exclus√£o Negada. \nCliente Servi√ßo pedido em aberto.");
+
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
 	}
+	private void limpar()
+
+	{
+		txtPesquisar.setText(null);
+		txtIdCli.setText(null);
+		txtNomeCli.setText(null);
+		txtCep.setText(null);
+		txtEndereco.setText(null);
+		txtNumero.setText(null);
+		txtComplemento.setText(null);
+		txtBairro.setText(null);
+		cboUf.setSelectedItem(null);
+		txtFoneCli.setText(null);
+		txtEmailCli.setText(null);
+		txtCidade.setText(null);
+
+		// Limpar a tabela
+		((DefaultTableModel) table.getModel()).setRowCount(0);
+		// geren btn
+		btnAdicionar.setEnabled(true);
+		btnEditar.setEnabled(false);
+		btnExcluir.setEnabled(false);
+	}
+
+}

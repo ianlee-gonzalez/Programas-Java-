@@ -42,7 +42,7 @@ public class Sobre extends JDialog {
 		lblNewLabel.setBounds(37, 41, 267, 14);
 		getContentPane().add(lblNewLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel("Autor: Professor Jos\u00E9 Assis");
+		JLabel lblNewLabel_1 = new JLabel("Autor Ian Lee");
 		lblNewLabel_1.setBounds(37, 85, 275, 14);
 		getContentPane().add(lblNewLabel_1);
 		
