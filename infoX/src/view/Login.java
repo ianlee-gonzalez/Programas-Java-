@@ -11,14 +11,19 @@ import model.DAO;
 
 import java.awt.Toolkit;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Login extends JFrame {
 
@@ -63,7 +68,7 @@ public class Login extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Usuario");
+		JLabel lblNewLabel = new JLabel("Login");
 		lblNewLabel.setBounds(23, 29, 46, 14);
 		contentPane.add(lblNewLabel);
 		
@@ -81,6 +86,11 @@ public class Login extends JFrame {
 		contentPane.add(txtSenha);
 		
 		JButton btnEntrar = new JButton("Entrar");
+		btnEntrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				logar();
+			}
+		});
 		btnEntrar.setBounds(10, 163, 89, 23);
 		contentPane.add(btnEntrar);
 		
@@ -89,6 +99,7 @@ public class Login extends JFrame {
 		lblStatus.setBounds(304, 172, 32, 32);
 		contentPane.add(lblStatus);
 	}// fim do construtor
+	DAO dao = new DAO();
 	private void status() {
 		DAO dao = new DAO();
 		try {
@@ -107,5 +118,40 @@ public class Login extends JFrame {
 			System.out.println(e);
 		}
 
+	}
+	private void logar() {
+		if(txtUsuario.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o login","Atenção",JOptionPane.WARNING_MESSAGE);
+			txtUsuario.requestFocus();
+		}else if (txtSenha.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha a senha ","Atenção",JOptionPane.WARNING_MESSAGE);
+			txtSenha.requestFocus();
+		}else {
+			try {
+				String read= "select * from usuarios where login =? and senha=md5(?) ";
+				Connection con=dao.conectar();
+				PreparedStatement pst = con.prepareStatement(read);
+				pst.setString(1,txtUsuario.getText());
+				pst.setString(2,txtSenha.getText());
+				ResultSet rs =pst.executeQuery();
+				if (rs.next()) {
+					//ir para a area do cliente
+					AreaCliente cliente = new AreaCliente();
+					cliente.setVisible(true);
+					
+					 //após o login finalizar o JFrame
+					this.dispose();
+					
+					
+				} else {
+					JOptionPane.showMessageDialog(null, "Preencha o login Correto","Atenção",JOptionPane.WARNING_MESSAGE);
+					txtUsuario.requestFocus();
+
+				}
+				
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
 	}
 }

@@ -21,6 +21,7 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+import Atxy2k.CustomTextField.RestrictedTextField;
 import model.DAO;
 import net.proteanit.sql.DbUtils;
 
@@ -77,7 +78,7 @@ public class Clientes extends JDialog {
 		setResizable(false);
 		setModal(true);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Clientes.class.getResource("/img/pc.png")));
-		setBounds(150, 150, 573, 436);
+		setBounds(150, 150, 671, 443);
 		getContentPane().setLayout(null);
 
 		txtPesquisar = new JTextField();
@@ -262,15 +263,22 @@ public class Clientes extends JDialog {
 		lblNewLabel_3.setBounds(2, 266, 70, 15);
 		getContentPane().add(lblNewLabel_3);
 
-		txtEmailCli = new JTextField();
-		txtEmailCli.setBounds(90, 264, 114, 19);
-		getContentPane().add(txtEmailCli);
-		txtEmailCli.setColumns(10);
+		txtEmail = new JTextField();
+		txtEmail.setBounds(90, 264, 114, 19);
+		getContentPane().add(txtEmail);
+		txtEmail.setColumns(10);
+		RestrictedTextField nome = new RestrictedTextField(this.txtNomeCli);
+		nome.setLimit(50);
+		RestrictedTextField email = new RestrictedTextField(this.txtEmail);
+		email.setLimit(50);
+		RestrictedTextField fone = new RestrictedTextField(this.txtFoneCli);
+		fone.setLimit(15);
 	}
+	
 
 	// Fim do construtor>>>>>>>>>>>>
 	DAO dao = new DAO();
-	private JTextField txtEmailCli;
+	private JTextField txtEmail;
 	private JButton btnAdicionar;
 	private JButton btnEditar;
 	private JButton btnExcluir;
@@ -343,29 +351,29 @@ public class Clientes extends JDialog {
 
 		{
 			if (txtNomeCli.getText().isEmpty()) {
-				JOptionPane.showMessageDialog(null, "Preencha o Nome!", "Atenção!!", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Preencha o Nome!", "Aten��o!!", JOptionPane.ERROR_MESSAGE);
 				txtNomeCli.requestFocus();
-			} else if (txtCep.getText().isEmpty()) {
-				JOptionPane.showMessageDialog(null, "Preencha o Endereço Completo!", "Atenção!!",
-						JOptionPane.ERROR_MESSAGE);
-				txtCep.requestFocus();
 			} else if (txtEndereco.getText().isEmpty()) {
-				JOptionPane.showMessageDialog(null, "Preencha a Endereço Completo!", "Atenção!!",
+				JOptionPane.showMessageDialog(null, "Preencha o Endere�o Completo!", "Aten��o!!",
 						JOptionPane.ERROR_MESSAGE);
 				txtEndereco.requestFocus();
-				// } else if (txtComplemento.getText().isEmpty()) {
-				// JOptionPane.showMessageDialog(null, "Preencha a Endereço Completo!",
-				// "Atenção!!",
-				// JOptionPane.ERROR_MESSAGE);
-				// txtComplemento.requestFocus();
 			} else if (txtBairro.getText().isEmpty()) {
-				JOptionPane.showMessageDialog(null, "Preencha a Endereço Completo!", "Atenção!!",
+				JOptionPane.showMessageDialog(null, "Preencha o Bairro Completo!", "Atenção!!",
 						JOptionPane.ERROR_MESSAGE);
 				txtBairro.requestFocus();
-			} else if (txtCidade.getText().isEmpty()) {
-				JOptionPane.showMessageDialog(null, "Preencha a Endereço Completo!", "Atenção!!",
+				 } else if (txtCidade.getText().isEmpty()) {
+				 JOptionPane.showMessageDialog(null, "Preencha a cidade Completo!",
+				 "Aten��o!!",
+				 JOptionPane.ERROR_MESSAGE);
+				 txtCidade.requestFocus();
+			} else if (txtNumero.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Preencha o numero Completo!", "Atenção!!",
 						JOptionPane.ERROR_MESSAGE);
-				txtCidade.requestFocus();
+				txtNumero.requestFocus();
+			//} else if (txtCidade.getText().isEmpty()) {
+				//JOptionPane.showMessageDialog(null, "Preencha a Endereço Completo!", "Atenção!!",
+						//JOptionPane.ERROR_MESSAGE);
+				//txtCidade.requestFocus();
 			} else if (txtFoneCli.getText().isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Preencha o Telefone!", "Atenção!!", JOptionPane.ERROR_MESSAGE);
 				txtFoneCli.requestFocus();
@@ -383,7 +391,7 @@ public class Clientes extends JDialog {
 					pst.setString(6, txtBairro.getText());
 					pst.setString(7, cboUf.getSelectedItem().toString());
 					pst.setString(8, txtFoneCli.getText());
-					pst.setString(9, txtEmailCli.getText());
+					pst.setString(9, txtEmail.getText());
 					pst.setString(10, txtCidade.getText());
 
 					int confirma = pst.executeUpdate();
@@ -397,8 +405,8 @@ public class Clientes extends JDialog {
 					JOptionPane.showMessageDialog(null,
 							"E-mail já cadastrado!\n Favor escolher outro e-mail para cadastrar!", "Mensagem",
 							JOptionPane.WARNING_MESSAGE);
-					txtEmailCli.setText(null);
-					txtEmailCli.requestFocus();
+					txtEmail.setText(null);
+					txtEmail.requestFocus();
 
 				} catch (Exception e) {
 					System.out.println(e);
@@ -417,10 +425,10 @@ public class Clientes extends JDialog {
 		txtBairro.setText(table.getModel().getValueAt(setar, 6).toString());
 		cboUf.setSelectedItem(table.getModel().getValueAt(setar, 7).toString());
 		txtFoneCli.setText(table.getModel().getValueAt(setar, 8).toString());
-		txtEmailCli.setText(table.getModel().getValueAt(setar, 9).toString());
+		txtEmail.setText(table.getModel().getValueAt(setar, 9).toString());
 		txtCidade.setText(table.getModel().getValueAt(setar, 10).toString());
 
-		// Geren Btn
+
 		btnAdicionar.setEnabled(false);
 		btnEditar.setEnabled(true);
 		btnExcluir.setEnabled(true);
@@ -469,7 +477,7 @@ public class Clientes extends JDialog {
 				pst.setString(6, txtBairro.getText());
 				pst.setString(7, cboUf.getSelectedItem().toString());
 				pst.setString(8, txtFoneCli.getText());
-				pst.setString(9, txtEmailCli.getText());
+				pst.setString(9, txtEmail.getText());
 				pst.setString(10, txtCidade.getText());
 				pst.setString(11, txtIdCli.getText());
 
@@ -484,8 +492,8 @@ public class Clientes extends JDialog {
 				JOptionPane.showMessageDialog(null,
 						"E-mail já cadastrado!\n Favor escolher outro e-mail para cadastrar!", "Mensagem",
 						JOptionPane.WARNING_MESSAGE);
-				txtEmailCli.setText(null);
-				txtEmailCli.requestFocus();
+				txtEmail.setText(null);
+				txtEmail.requestFocus();
 
 			} catch (Exception e) {
 				System.out.println(e);
@@ -532,7 +540,7 @@ public class Clientes extends JDialog {
 		txtBairro.setText(null);
 		cboUf.setSelectedItem(null);
 		txtFoneCli.setText(null);
-		txtEmailCli.setText(null);
+		txtEmail.setText(null);
 		txtCidade.setText(null);
 
 		// Limpar a tabela
