@@ -32,6 +32,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JCheckBox;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Usuarios extends JDialog {
 
@@ -59,6 +62,14 @@ public class Usuarios extends JDialog {
 	 * Create the dialog.
 	 */
 	public Usuarios() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowActivated(WindowEvent e) {
+				chkSenha.setVisible(false);
+				
+				
+			}
+		});
 		setBounds(100, 100, 772, 505);
 		getContentPane().setLayout(null);
 		contentPanel.setBounds(0, 0, 1, 473);
@@ -160,17 +171,23 @@ public class Usuarios extends JDialog {
 		getContentPane().add(btnAdicionar);
 		
 		btnEditar = new JButton("Editar Usuario");
+		btnEditar.setEnabled(false);
 		btnEditar.setToolTipText("Editar Usuario");
 		btnEditar.setIcon(new ImageIcon(Usuarios.class.getResource("/img/update.png")));
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				editarUsuario();
+				if(chkSenha.isSelected()) {
+					editarUsuario();
+				}else {
+					editarUsuarioPersonalizado();
+				}
 			}
 		});
 		btnEditar.setBounds(274, 372, 117, 83);
 		getContentPane().add(btnEditar);
 		
 		btnExcluir = new JButton("Excluir Usuario");
+		btnExcluir.setEnabled(false);
 		btnExcluir.setToolTipText("Ecluir Usuario");
 		btnExcluir.setIcon(new ImageIcon(Usuarios.class.getResource("/img/delete.png")));
 		btnExcluir.addActionListener(new ActionListener() {
@@ -191,6 +208,10 @@ public class Usuarios extends JDialog {
 				cboPerfil.setModel(new DefaultComboBoxModel(new String[] {"Administrador", "Operador"}));
 				cboPerfil.setBounds(392, 276, 104, 22);
 				getContentPane().add(cboPerfil);
+				
+				chkSenha = new JCheckBox("Confirmar Altera\u00E7ao de senha");
+				chkSenha.setBounds(99, 429, 169, 23);
+				getContentPane().add(chkSenha);
 				senha.setLimit(250);
 		
 	}
@@ -202,6 +223,7 @@ public class Usuarios extends JDialog {
 	private JButton btnEditar;
 	private JButton btnExcluir;
 	private JComboBox cboPerfil;
+	private JCheckBox chkSenha;
 	private void pesquisarUsuario() {
 		String read="select * from usuarios where usuario like ?";
 		try {
@@ -314,6 +336,59 @@ public class Usuarios extends JDialog {
 
 		}
 
+	}//fim do metodo editar
+	/**
+	 * metodo responsavel por editar os dados do usuario  e a senha
+	 */
+	private void editarUsuarioPersonalizado() {
+		if (txtUsuario.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "preencha o campo Nome", "Atenï¿½ï¿½o Pï¿½", JOptionPane.ERROR_MESSAGE);
+			txtUsuario.requestFocus();
+		//} else if (txtFone.getText().isEmpty()) {
+			//JOptionPane.showMessageDialog(null, "preencha o campo Telefone", "Atenção", JOptionPane.ERROR_MESSAGE);
+			//txtFone.requestFocus();
+
+		} else if (txtLogin.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "preencha o campo CPF", "Atenção", JOptionPane.ERROR_MESSAGE);
+			txtLogin.requestFocus();
+		} else if (txtSenha.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "preencha o campo Senha", "Atenção", JOptionPane.ERROR_MESSAGE);
+			txtSenha.requestFocus();
+		} else if (cboPerfil.getSelectedItem().toString().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "preencha o campo Perfil", "", JOptionPane.ERROR_MESSAGE);
+			cboPerfil.requestFocus();
+		} else {
+			String update = "update usuarios set usuario=?,login=?,perfil=? where id=?";
+			try {
+				Connection con = dao.conectar();
+				PreparedStatement pst = con.prepareStatement(update);
+				pst.setString(1, txtUsuario.getText());
+				pst.setString(2, txtLogin.getText());
+				pst.setString(3, cboPerfil.getSelectedItem().toString());
+				pst.setString(4, txtIdUsu.getText());
+				int confirma = pst.executeUpdate();
+				if (confirma == 1) {
+					JOptionPane.showMessageDialog(null, "Cliente editado  com sucesso ", "Aviso",
+							JOptionPane.INFORMATION_MESSAGE);	
+				}
+				con.close();
+				limpar();
+				
+
+			} catch (java.sql.SQLIntegrityConstraintViolationException ex) {
+				JOptionPane.showMessageDialog(null, "Login ja cadastrado", "AtenÃ§ao ", JOptionPane.ERROR_MESSAGE);
+				txtLogin.setText(null);
+				txtLogin.requestFocus();
+
+			}catch (Exception e) {
+				System.out.println(e);
+				JOptionPane.showMessageDialog(null, "Erro ao editar os dados do usuÃ¡rio", "AtenÃ§Ã£o!",
+						JOptionPane.WARNING_MESSAGE);
+			
+			}
+
+		}
+
 	}
 	private void setarCampos() {
 		// a linha abaixo obtem o conteÃºdo da linha da tabela
@@ -328,6 +403,7 @@ public class Usuarios extends JDialog {
 		btnAdicionar.setEnabled(false);
 		btnEditar.setEnabled(true);
 		btnExcluir.setEnabled(true);
+		chkSenha.setVisible(true);
 	}
 	public void setarSenha() {
 		String read2 = "select senha from usuarios where id = ?";

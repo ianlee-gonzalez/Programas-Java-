@@ -274,7 +274,6 @@ public class Clientes extends JDialog {
 		RestrictedTextField fone = new RestrictedTextField(this.txtFoneCli);
 		fone.setLimit(15);
 	}
-	
 
 	// Fim do construtor>>>>>>>>>>>>
 	DAO dao = new DAO();
@@ -361,19 +360,19 @@ public class Clientes extends JDialog {
 				JOptionPane.showMessageDialog(null, "Preencha o Bairro Completo!", "Atenção!!",
 						JOptionPane.ERROR_MESSAGE);
 				txtBairro.requestFocus();
-				 } else if (txtCidade.getText().isEmpty()) {
-				 JOptionPane.showMessageDialog(null, "Preencha a cidade Completo!",
-				 "Aten��o!!",
-				 JOptionPane.ERROR_MESSAGE);
-				 txtCidade.requestFocus();
+			} else if (txtCidade.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Preencha a cidade Completo!", "Aten��o!!",
+						JOptionPane.ERROR_MESSAGE);
+				txtCidade.requestFocus();
 			} else if (txtNumero.getText().isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Preencha o numero Completo!", "Atenção!!",
 						JOptionPane.ERROR_MESSAGE);
 				txtNumero.requestFocus();
-			//} else if (txtCidade.getText().isEmpty()) {
-				//JOptionPane.showMessageDialog(null, "Preencha a Endereço Completo!", "Atenção!!",
-						//JOptionPane.ERROR_MESSAGE);
-				//txtCidade.requestFocus();
+				// } else if (txtCidade.getText().isEmpty()) {
+				// JOptionPane.showMessageDialog(null, "Preencha a Endereço Completo!",
+				// "Atenção!!",
+				// JOptionPane.ERROR_MESSAGE);
+				// txtCidade.requestFocus();
 			} else if (txtFoneCli.getText().isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Preencha o Telefone!", "Atenção!!", JOptionPane.ERROR_MESSAGE);
 				txtFoneCli.requestFocus();
@@ -414,20 +413,20 @@ public class Clientes extends JDialog {
 			}
 		}
 	}
+
 	private void setarCampos() {
 		int setar = table.getSelectedRow();
 		txtIdCli.setText(table.getModel().getValueAt(setar, 0).toString());
 		txtNomeCli.setText(table.getModel().getValueAt(setar, 1).toString());
-		txtCep.setText(table.getModel().getValueAt(setar, 2).toString());
-		txtEndereco.setText(table.getModel().getValueAt(setar, 3).toString());
-		txtNumero.setText(table.getModel().getValueAt(setar, 4).toString());
-		txtComplemento.setText(table.getModel().getValueAt(setar, 5).toString());
-		txtBairro.setText(table.getModel().getValueAt(setar, 6).toString());
-		cboUf.setSelectedItem(table.getModel().getValueAt(setar, 7).toString());
-		txtFoneCli.setText(table.getModel().getValueAt(setar, 8).toString());
-		txtEmail.setText(table.getModel().getValueAt(setar, 9).toString());
-		txtCidade.setText(table.getModel().getValueAt(setar, 10).toString());
-
+		txtEmail.setText(table.getModel().getValueAt(setar, 2).toString());
+		txtCep.setText(table.getModel().getValueAt(setar, 3).toString());
+		txtEndereco.setText(table.getModel().getValueAt(setar, 4).toString());
+		txtNumero.setText(table.getModel().getValueAt(setar, 5).toString());
+		txtComplemento.setText(table.getModel().getValueAt(setar, 6).toString());
+		txtBairro.setText(table.getModel().getValueAt(setar, 7).toString());
+		txtCidade.setText(table.getModel().getValueAt(setar, 8).toString());
+		cboUf.setSelectedItem(table.getModel().getValueAt(setar, 9).toString());
+		txtFoneCli.setText(table.getModel().getValueAt(setar, 10).toString());
 
 		btnAdicionar.setEnabled(false);
 		btnEditar.setEnabled(true);
@@ -499,7 +498,8 @@ public class Clientes extends JDialog {
 				System.out.println(e);
 			}
 		}
-}
+	}
+
 	private void excluirCliente() {
 		// Confirmação de Exclusão
 		int confirma = JOptionPane.showConfirmDialog(null, "Confirma a exclusão deste cliente?", "Atenção!",
@@ -527,6 +527,7 @@ public class Clientes extends JDialog {
 			}
 		}
 	}
+
 	private void limpar()
 
 	{
