@@ -16,6 +16,7 @@ import net.proteanit.sql.DbUtils;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JScrollPane;
@@ -31,6 +32,7 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Toolkit;
+import javax.swing.ButtonGroup;
 
 public class Servicos extends JDialog {
 
@@ -40,6 +42,9 @@ public class Servicos extends JDialog {
 	/**
 	 * Launch the application.
 	 */
+
+	private String tipo;
+
 	public static void main(String[] args) {
 		try {
 			Servicos dialog = new Servicos();
@@ -102,29 +107,39 @@ public class Servicos extends JDialog {
 		contentPanel.add(panel);
 		panel.setLayout(null);
 
-		textField_1 = new JTextField();
-		textField_1.setEditable(false);
-		textField_1.setBounds(10, 25, 76, 20);
-		panel.add(textField_1);
-		textField_1.setColumns(10);
-
+		txtOs = new JTextField();
+		txtOs.setEditable(false);
+		txtOs.setBounds(10, 25, 76, 20);
+		panel.add(txtOs);
+		txtOs.setColumns(10);
 		txtData = new JTextField();
 		txtData.setEditable(false);
 		txtData.setBounds(220, 25, 131, 20);
 		panel.add(txtData);
 		txtData.setColumns(10);
-
 		JLabel lblNewLabel_2 = new JLabel("Data");
 		lblNewLabel_2.setBounds(163, 28, 46, 14);
 		panel.add(lblNewLabel_2);
+		JCheckBox chkOrcamento = new JCheckBox("Or\u00E7amento");
+		chkOrcamento.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tipo = "Orçamento";
 
-		JCheckBox chckbxNewCheckBox = new JCheckBox("Or\u00E7amento");
-		chckbxNewCheckBox.setBounds(10, 74, 97, 23);
-		panel.add(chckbxNewCheckBox);
+			}
+		});
+		buttonGroup.add(chkOrcamento);
+		chkOrcamento.setBounds(10, 74, 97, 23);
+		panel.add(chkOrcamento);
 
-		JCheckBox chckbxNewCheckBox_1 = new JCheckBox("Servi\u00E7o");
-		chckbxNewCheckBox_1.setBounds(128, 74, 97, 23);
-		panel.add(chckbxNewCheckBox_1);
+		JCheckBox chkServico = new JCheckBox("Servi\u00E7o");
+		chkServico.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tipo = "Serviço";
+			}
+		});
+		buttonGroup.add(chkServico);
+		chkServico.setBounds(128, 74, 97, 23);
+		panel.add(chkServico);
 
 		JLabel lblNewLabel_3 = new JLabel("Status");
 		lblNewLabel_3.setBounds(258, 56, 46, 14);
@@ -151,78 +166,96 @@ public class Servicos extends JDialog {
 			}
 		});
 		scrollPane.setViewportView(table);
-		
+
 		JButton btnAdicionar = new JButton("Adicionar Ordem de servi\u00E7o");
+		btnAdicionar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				emitirOs();
+			}
+		});
 		btnAdicionar.setIcon(new ImageIcon(Servicos.class.getResource("/img/create.png")));
 		btnAdicionar.setBounds(10, 306, 89, 71);
 		contentPanel.add(btnAdicionar);
-		
-		JButton btnPesquisar = new JButton("Pesquisar Ordem De servi\u00E7o");
+
+		JButton btnPesquisar = new JButton("");
+		btnPesquisar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pesquisandoOs();
+			}
+		});
+		btnPesquisar.setToolTipText("PesquisarOrdemDeServi\u00E7o");
 		btnPesquisar.setIcon(new ImageIcon(Servicos.class.getResource("/img/read.png")));
 		btnPesquisar.setBounds(98, 306, 89, 71);
 		contentPanel.add(btnPesquisar);
-		
+
 		JButton btnEditar = new JButton("Editar Ordem De Servi\u00E7o");
 		btnEditar.setIcon(new ImageIcon(Servicos.class.getResource("/img/update.png")));
 		btnEditar.setBounds(186, 306, 89, 71);
 		contentPanel.add(btnEditar);
-		
+
 		JButton btnExcluir = new JButton("Excluir Ordem de servi\u00E7o");
 		btnExcluir.setIcon(new ImageIcon(Servicos.class.getResource("/img/delete.png")));
 		btnExcluir.setBounds(273, 306, 89, 71);
 		contentPanel.add(btnExcluir);
-		
+
 		JLabel lblNewLabel_4 = new JLabel("New label");
 		lblNewLabel_4.setIcon(new ImageIcon(Servicos.class.getResource("/img/os.png")));
 		lblNewLabel_4.setBounds(22, 170, 70, 87);
 		contentPanel.add(lblNewLabel_4);
-		
+
 		JLabel lblNewLabel_5 = new JLabel("Equipamento");
 		lblNewLabel_5.setBounds(115, 181, 72, 14);
 		contentPanel.add(lblNewLabel_5);
-		
+
 		textField = new JTextField();
 		textField.setBounds(203, 178, 86, 20);
 		contentPanel.add(textField);
 		textField.setColumns(10);
-		
+
 		JLabel lblNewLabel_6 = new JLabel("Defeito");
 		lblNewLabel_6.setBounds(125, 206, 46, 14);
 		contentPanel.add(lblNewLabel_6);
-		
+
 		textField_2 = new JTextField();
 		textField_2.setBounds(200, 203, 89, 20);
 		contentPanel.add(textField_2);
 		textField_2.setColumns(10);
-		
+
 		JLabel lblNewLabel_7 = new JLabel("Tecnico");
 		lblNewLabel_7.setBounds(125, 231, 46, 14);
 		contentPanel.add(lblNewLabel_7);
-		
+
 		textField_3 = new JTextField();
 		textField_3.setBounds(203, 228, 86, 20);
 		contentPanel.add(textField_3);
 		textField_3.setColumns(10);
-		
+
 		JLabel lblNewLabel_8 = new JLabel("Valor");
 		lblNewLabel_8.setBounds(125, 256, 46, 14);
 		contentPanel.add(lblNewLabel_8);
-		
+
 		textField_4 = new JTextField();
+		textField_4.setText("0");
 		textField_4.setBounds(203, 253, 86, 20);
 		contentPanel.add(textField_4);
 		textField_4.setColumns(10);
+
+		JButton btnImprimir = new JButton("");
+		btnImprimir.setIcon(new ImageIcon(Servicos.class.getResource("/img/print.png")));
+		btnImprimir.setBounds(361, 306, 89, 71);
+		contentPanel.add(btnImprimir);
 	} // Fim do construtor
 
 	DAO dao = new DAO();
 	private JTextField txtId;
-	private JTextField textField_1;
+	private JTextField txtOs;
 	private JTextField txtData;
 	private JTable table;
 	private JTextField textField;
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField_4;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 	private void pesquisarOs() {
 		String read = "select idcli as ID, nome as Nome,fone as Telefone from clientes where nome like ?";
@@ -244,6 +277,41 @@ public class Servicos extends JDialog {
 
 	private void setarCampos() {
 		int setar = table.getSelectedRow();
-		txtId.setText(table.getModel().getValueAt(setar, 0).toString());
-	}
+			txtId.setText(table.getModel().getValueAt(setar, 0).toString());
+			
 }
+	private void pesquisandoOs() {
+		String numOs = JOptionPane.showInputDialog("numero da Os");
+		String read = "select * from tbos where os=" + numOs;
+		try {
+			Connection con = dao.conectar();
+			PreparedStatement pst = con.prepareStatement(read);
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+				txtOs.setText(rs.getString(9));
+				txtId.setText(rs.getString(1));
+				
+			}
+			con.close();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+
+	private void emitirOs() {
+		// apoio ao entendimento da logico do uso do check box
+		System.out.println(tipo);
+
+	}
+	
+		
+		
+	}
+	
+		
+	
+
+
+
+	
+
