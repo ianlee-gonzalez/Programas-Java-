@@ -16,6 +16,8 @@ import java.awt.event.ActionEvent;
 public class Principal extends JFrame {
 
 	private JPanel contentPane;
+	public JButton btnRelatorios;
+	public JButton btnFuncionarios;
 
 	/**
 	 * Launch the application.
@@ -58,15 +60,16 @@ public class Principal extends JFrame {
 		btnClientes.setBounds(10, 11, 109, 94);
 		contentPane.add(btnClientes);
 		
-		JButton btnNewButton_1 = new JButton("");
-		btnNewButton_1.setToolTipText("Relatorios");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		btnRelatorios = new JButton("");
+		btnRelatorios.setEnabled(false);
+		btnRelatorios.setToolTipText("Relatorios");
+		btnRelatorios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnNewButton_1.setIcon(new ImageIcon(Principal.class.getResource("/icones/49615_reports_report_documents_icon.png")));
-		btnNewButton_1.setBounds(126, 11, 135, 117);
-		contentPane.add(btnNewButton_1);
+		btnRelatorios.setIcon(new ImageIcon(Principal.class.getResource("/icones/49615_reports_report_documents_icon.png")));
+		btnRelatorios.setBounds(126, 11, 135, 117);
+		contentPane.add(btnRelatorios);
 		
 		JButton btnNewButton_2 = new JButton("New button");
 		btnNewButton_2.setIcon(new ImageIcon(Principal.class.getResource("/icones/sobre.png")));
@@ -83,13 +86,17 @@ public class Principal extends JFrame {
 		btnNewButton_3.setBounds(20, 116, 89, 96);
 		contentPane.add(btnNewButton_3);
 		
-		JButton btnNewButton_4 = new JButton("New button");
-		btnNewButton_4.setIcon(new ImageIcon(Principal.class.getResource("/icones/clientes.png")));
-		btnNewButton_4.addActionListener(new ActionListener() {
+		btnFuncionarios = new JButton("");
+		btnFuncionarios.setEnabled(false);
+		btnFuncionarios.setToolTipText("Funcionarios");
+		btnFuncionarios.setIcon(new ImageIcon(Principal.class.getResource("/icones/clientes.png")));
+		btnFuncionarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Funcionarios funcionarios =new Funcionarios();
+				funcionarios.setVisible(true);
 			}
 		});
-		btnNewButton_4.setBounds(136, 128, 125, 102);
-		contentPane.add(btnNewButton_4);
+		btnFuncionarios.setBounds(136, 130, 100, 100);
+		contentPane.add(btnFuncionarios);
 	}
 }
