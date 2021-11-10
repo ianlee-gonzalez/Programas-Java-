@@ -11,10 +11,10 @@ import java.sql.DriverManager;
  */
 public class DAO {
 	// parametros de conex�o
-	private String driver = "com.mysql.cj.jdbc.Driver";
-	private String url = "jdbc:mysql://127.0.0.1:3306/dbfone";
-	private String user = "root";
-	private String password = "SuaSenha";
+	private String driver ="com.mysql.cj.jdbc.Driver";
+	private String url ="jdbc:mysql://10.26.45.100:3306/dbfone";
+	private String user ="dba";
+	private String password="123@Senac";
 
 	/**
 	 * Metodo resposavel pela conex�o com o banco *

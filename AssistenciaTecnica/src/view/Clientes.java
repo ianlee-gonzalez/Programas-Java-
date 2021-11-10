@@ -381,29 +381,29 @@ public class Clientes extends JDialog {
 
 	private void adicionarCliente() {
 		if (txtNome.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo Nome", "Atenï¿½ï¿½o Pï¿½", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "preencha o campo Nome", "Atenção", JOptionPane.ERROR_MESSAGE);
 			txtNome.requestFocus();
 		} else if (txtTelefone.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo Telefone", "Atenï¿½ï¿½o Pï¿½", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "preencha o campo Telefone", "Atenção ", JOptionPane.ERROR_MESSAGE);
 			txtTelefone.requestFocus();
 
 		} else if (txtCpf.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo CPF", "Atenï¿½ï¿½o Pï¿½", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "preencha o campo CPF", "Atenção", JOptionPane.ERROR_MESSAGE);
 			txtCpf.requestFocus();
 		} else if (txtEndereco.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo Endereï¿½o", "Atenï¿½ï¿½o Pï¿½", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "preencha o campo Endereï¿½o", "Atenção", JOptionPane.ERROR_MESSAGE);
 			txtEndereco.requestFocus();
 		} else if (txtNumero.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo Numero", "Atenï¿½ï¿½o Pï¿½", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "preencha o campo Numero", "Atenção", JOptionPane.ERROR_MESSAGE);
 			txtNumero.requestFocus();
 		} else if (txtBairro.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo CPF", "Atenï¿½ï¿½o Pï¿½", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "preencha o campo CPF", "Atenção ", JOptionPane.ERROR_MESSAGE);
 			txtBairro.requestFocus();
 		} else if (txtCidade.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo Cidade", "Atenï¿½ï¿½o Pï¿½", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "preencha o campo Cidade", "Atenção PÔ", JOptionPane.ERROR_MESSAGE);
 			txtCidade.requestFocus();
 		} else if (cboUf.getSelectedItem().toString().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo UF", "Atenï¿½ï¿½o Pï¿½", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "preencha o campo UF", "Atenção", JOptionPane.ERROR_MESSAGE);
 			cboUf.requestFocus();
 
 		} else {
@@ -434,7 +434,7 @@ public class Clientes extends JDialog {
 				
 
 			} catch (java.sql.SQLIntegrityConstraintViolationException ex) {
-				JOptionPane.showMessageDialog(null, "Email ja cadastrado", "Atenï¿½ï¿½o ", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Email ja cadastrado", "Atenção ", JOptionPane.ERROR_MESSAGE);
 				txtEmail.setText(null);
 				txtEmail.requestFocus();
 
@@ -495,29 +495,29 @@ public class Clientes extends JDialog {
 			JOptionPane.showMessageDialog(null, "preencha o campo Nome", "Atenï¿½ï¿½o Pï¿½", JOptionPane.ERROR_MESSAGE);
 			txtNome.requestFocus();
 		} else if (txtTelefone.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo Telefone", "Atenï¿½ï¿½o Pï¿½", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "preencha o campo Telefone", "Atenção", JOptionPane.ERROR_MESSAGE);
 			txtTelefone.requestFocus();
 		} else if (txtCpf.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo CPF", "Atenï¿½ï¿½o Pï¿½", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "preencha o campo CPF", "Atenção", JOptionPane.ERROR_MESSAGE);
 			txtCpf.requestFocus();
 		} else if (txtEndereco.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo Endereï¿½o", "Atenï¿½ï¿½o Pï¿½", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "preencha o campo Endereï¿½o", "Atenção", JOptionPane.ERROR_MESSAGE);
 			txtEndereco.requestFocus();
 		} else if (txtNumero.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo Numero", "Atenï¿½ï¿½o Pï¿½", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "preencha o campo Numero", "Atençao", JOptionPane.ERROR_MESSAGE);
 			txtNumero.requestFocus();
 		} else if (txtBairro.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo CPF", "Atenï¿½ï¿½o Pï¿½", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "preencha o campo CPF", "Atenção", JOptionPane.ERROR_MESSAGE);
 			txtBairro.requestFocus();
 		} else if (txtCidade.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo ", "Atenï¿½ï¿½o Pï¿½", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "preencha o campo ", "Atenção", JOptionPane.ERROR_MESSAGE);
 			txtCidade.requestFocus();
 		} else if (cboUf.getSelectedItem().toString().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo UF", "Atenï¿½ï¿½o Pï¿½", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "preencha o campo UF", "Atenção", JOptionPane.ERROR_MESSAGE);
 			cboUf.requestFocus();
 		} else {
 			// 11
-			String update = "update clientes set cliente=?,cpf=?,cep=?,endereco=?,numero=?,complemento=?,bairro=?,cidade=?,uf=?,fone=?,email=? where idcli=?";
+			String update = "update clientes set nome=?,cpf=?,cep=?,endereco=?,numero=?,complemento=?,bairro=?,cidade=?,uf=?,fone=?,email=? where idcli=?";
 			try {
 				Connection con = dao.conectar();
 				PreparedStatement pst = con.prepareStatement(update);
@@ -543,7 +543,7 @@ public class Clientes extends JDialog {
 
 				}
 			} catch (java.sql.SQLIntegrityConstraintViolationException ex) {
-				JOptionPane.showMessageDialog(null, "Email ja cadastrado", "Atenï¿½ï¿½o ", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Email ja cadastrado", "Atenção ", JOptionPane.ERROR_MESSAGE);
 				txtEmail.setText(null);
 				txtEmail.requestFocus();
 
@@ -560,7 +560,7 @@ public class Clientes extends JDialog {
 
 	private void excluirCliente() {
 		// confirmaï¿½ao de exclusï¿½o
-		int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir esse cliente??", "Atenï¿½ï¿½o!",
+		int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir esse cliente??", "Atenção",
 				JOptionPane.YES_NO_OPTION);
 		if (confirma == JOptionPane.YES_OPTION) {
 			JOptionPane.showMessageDialog(null, "Cliente Excluido com sucesso", "Ei", JOptionPane.INFORMATION_MESSAGE);
@@ -579,7 +579,7 @@ public class Clientes extends JDialog {
 				con.close();
 
 			} catch (java.sql.SQLIntegrityConstraintViolationException ex) {
-				JOptionPane.showMessageDialog(null, "Exclusï¿½o nï¿½o realizada.\nCliente possui pedido em aberto.",
+				JOptionPane.showMessageDialog(null, "Exclusï¿½o nï¿½o realizada.Cliente possui pedido em aberto.",
 						"Atenï¿½ï¿½o!", JOptionPane.WARNING_MESSAGE);
 			} catch (Exception e) {
 				System.out.println(e);

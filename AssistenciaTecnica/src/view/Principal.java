@@ -76,15 +76,17 @@ public class Principal extends JFrame {
 		btnNewButton_2.setBounds(312, 128, 109, 102);
 		contentPane.add(btnNewButton_2);
 		
-		JButton btnNewButton_3 = new JButton("New button");
-		btnNewButton_3.addActionListener(new ActionListener() {
+		JButton btnOdemDeServico = new JButton("New button");
+		btnOdemDeServico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Serviços  servico =new Serviços();
+				servico.setVisible(true);
 			}
 		});
-		btnNewButton_3.setToolTipText("Ordem de servi\u00E7o");
-		btnNewButton_3.setIcon(new ImageIcon(Principal.class.getResource("/icones/relatorios.png")));
-		btnNewButton_3.setBounds(20, 116, 89, 96);
-		contentPane.add(btnNewButton_3);
+		btnOdemDeServico.setToolTipText("Ordem de servi\u00E7o");
+		btnOdemDeServico.setIcon(new ImageIcon(Principal.class.getResource("/icones/relatorios.png")));
+		btnOdemDeServico.setBounds(20, 116, 89, 96);
+		contentPane.add(btnOdemDeServico);
 		
 		btnFuncionarios = new JButton("");
 		btnFuncionarios.setEnabled(false);

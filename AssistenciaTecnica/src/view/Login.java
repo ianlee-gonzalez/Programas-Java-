@@ -120,10 +120,10 @@ public class Login extends JFrame {
 	}
 	private void logar() {
 		if (txtLogin.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o campo Login", "Atenï¿½ï¿½o!", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Preencha o campo Login", "Atenção!", JOptionPane.WARNING_MESSAGE);
 			txtLogin.requestFocus();
 		} else if (txtSenha.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o campo Senha", "Atenï¿½ï¿½o!", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Preencha o campo Senha", "Atenção!", JOptionPane.WARNING_MESSAGE);
 			txtSenha.requestFocus();
 		} else {
 			try {
@@ -141,11 +141,11 @@ public class Login extends JFrame {
 					String perfil = rs.getString(5);
 					System.out.println(perfil);
 
-					// tratamento de perfil de usuï¿½rio					
+					// tratamento de perfil de usuario				
 					if (perfil.equals("Administrador")) {
 						Principal principal = new Principal();
 						principal.setVisible(true);
-						// liberar os botï¿½es
+						// liberar os botoes
 						principal.btnRelatorios.setEnabled(true);
 						principal.btnFuncionarios.setEnabled(true);
 						// finalizar o JFrame
@@ -157,7 +157,7 @@ public class Login extends JFrame {
 						this.dispose();
 					}				
 				} else {
-					JOptionPane.showMessageDialog(null, "Usuï¿½rio e/ou senha invï¿½lido(s)", "Atenï¿½ï¿½o!",
+					JOptionPane.showMessageDialog(null, "Usuario ou senha invalidos(s)", "Atenção!",
 							JOptionPane.WARNING_MESSAGE);
 				}
 				con.close();

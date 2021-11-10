@@ -134,7 +134,7 @@ public class Funcionarios extends JDialog {
 		getContentPane().add(txtSenha);
 		
 		cboPerfil = new JComboBox();
-		cboPerfil.setModel(new DefaultComboBoxModel(new String[] {"Admin", "Operador"}));
+		cboPerfil.setModel(new DefaultComboBoxModel(new String[] {"Administrador", "Operador"}));
 		cboPerfil.setBounds(100, 354, 100, 24);
 		getContentPane().add(cboPerfil);
 		
@@ -266,17 +266,17 @@ public class Funcionarios extends JDialog {
 	}
 	private void editarFuncionario() {
 		if (txtUsuario.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo Usuario", "AtenÃ§ao Pï¿½", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "preencha o campo Usuario", "Atençao ", JOptionPane.ERROR_MESSAGE);
 			txtUsuario.requestFocus();
 		//} else if (txtFone.getText().isEmpty()) {
-			//JOptionPane.showMessageDialog(null, "preencha o campo Telefone", "Atenï¿½ï¿½o", JOptionPane.ERROR_MESSAGE);
+			//JOptionPane.showMessageDialog(null, "preencha o campo Telefone", "Atenção", JOptionPane.ERROR_MESSAGE);
 			//txtFone.requestFocus();
 
 		} else if (txtLogin.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo CPF", "Atenï¿½ï¿½o", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "preencha o campo CPF", "Atenção", JOptionPane.ERROR_MESSAGE);
 			txtLogin.requestFocus();
 		} else if (txtSenha.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo Senha", "Atenï¿½ï¿½o", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "preencha o campo Senha", "Atenção", JOptionPane.ERROR_MESSAGE);
 			txtSenha.requestFocus();
 		} else if (cboPerfil.getSelectedItem().toString().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "preencha o campo Perfil", "", JOptionPane.ERROR_MESSAGE);
@@ -301,13 +301,13 @@ public class Funcionarios extends JDialog {
 				
 
 			} catch (java.sql.SQLIntegrityConstraintViolationException ex) {
-				JOptionPane.showMessageDialog(null, "Login ja cadastrado", "AtenÃ§ao ", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Login ja cadastrado", "Atenção ", JOptionPane.ERROR_MESSAGE);
 				txtLogin.setText(null);
 				txtLogin.requestFocus();
 
 			}catch (Exception e) {
 				System.out.println(e);
-				JOptionPane.showMessageDialog(null, "Erro ao editar os dados do usuÃ¡rio", "AtenÃ§Ã£o!",
+				JOptionPane.showMessageDialog(null, "Erro ao editar os dados do usuario", "AtenÃ§Ã£o!",
 						JOptionPane.WARNING_MESSAGE);
 			
 			}
@@ -320,17 +320,17 @@ public class Funcionarios extends JDialog {
 	 */
 	private void editarUsuarioPersonalizado() {
 		if (txtUsuario.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo Nome", "Atenï¿½ï¿½o Pï¿½", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "preencha o campo Nome", "Atenção ", JOptionPane.ERROR_MESSAGE);
 			txtUsuario.requestFocus();
 		//} else if (txtFone.getText().isEmpty()) {
 			//JOptionPane.showMessageDialog(null, "preencha o campo Telefone", "Atenï¿½ï¿½o", JOptionPane.ERROR_MESSAGE);
 			//txtFone.requestFocus();
 
 		} else if (txtLogin.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo CPF", "Atenï¿½ï¿½o", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "preencha o campo CPF", "Atenção", JOptionPane.ERROR_MESSAGE);
 			txtLogin.requestFocus();
 		} else if (txtSenha.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "preencha o campo Senha", "Atenï¿½ï¿½o", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "preencha o campo Senha", "Atenção", JOptionPane.ERROR_MESSAGE);
 			txtSenha.requestFocus();
 		} else if (cboPerfil.getSelectedItem().toString().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "preencha o campo Perfil", "", JOptionPane.ERROR_MESSAGE);
@@ -354,13 +354,13 @@ public class Funcionarios extends JDialog {
 				
 
 			} catch (java.sql.SQLIntegrityConstraintViolationException ex) {
-				JOptionPane.showMessageDialog(null, "Login ja cadastrado", "AtenÃ§ao ", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Login ja cadastrado", "Atenção ", JOptionPane.ERROR_MESSAGE);
 				txtLogin.setText(null);
 				txtLogin.requestFocus();
 
 			}catch (Exception e) {
 				System.out.println(e);
-				JOptionPane.showMessageDialog(null, "Erro ao editar os dados do usuÃ¡rio", "AtenÃ§Ã£o!",
+				JOptionPane.showMessageDialog(null, "Erro ao editar os dados do usuario", "Atenção!",
 						JOptionPane.WARNING_MESSAGE);
 			
 			}
@@ -402,7 +402,7 @@ public class Funcionarios extends JDialog {
 	}
 	private void excluirFuncionario() {
 		// confimaÃ§Ã£o de exclusÃ£o
-		int confirma = JOptionPane.showConfirmDialog(null, "Deseja excluir este cliente?", "AtenÃ§Ã£o!",
+		int confirma = JOptionPane.showConfirmDialog(null, "Deseja excluir este cliente?", "Atenção!",
 				JOptionPane.YES_NO_OPTION);
 		if (confirma == JOptionPane.YES_OPTION) {
 			String delete = "delete from funcionarios where idfunc = ?";
@@ -413,16 +413,16 @@ public class Funcionarios extends JDialog {
 				int excluir = pst.executeUpdate();
 				if (excluir == 1) {
 					limpar();
-					JOptionPane.showMessageDialog(null, "Cliente excluÃ­do com sucesso", "Mensagem",
+					JOptionPane.showMessageDialog(null, "Cliente excluido com sucesso", "Mensagem",
 							JOptionPane.INFORMATION_MESSAGE);
 				}
 				con.close();
 			} catch (java.sql.SQLIntegrityConstraintViolationException ex) {
-				JOptionPane.showMessageDialog(null, "Erro ao excluir\nCliente possui pedido em aberto", "AtenÃ§Ã£o!",
+				JOptionPane.showMessageDialog(null, "Erro ao excluir\nCliente possui pedido em aberto", "Atenção!",
 						JOptionPane.WARNING_MESSAGE);
 			} catch (Exception e) {
 				System.out.println(e);
-				JOptionPane.showMessageDialog(null, "Erro ao excluir o cliente", "AtenÃ§Ã£o!",
+				JOptionPane.showMessageDialog(null, "Erro ao excluir o cliente", "Atenção!",
 						JOptionPane.WARNING_MESSAGE);
 			}
 		}
